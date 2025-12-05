@@ -23,24 +23,41 @@ function loadTask(taskName) {
 
   document.getElementById("task-title").textContent = taskName;
 
-  const list = document.getElementById("checklist");
-  list.innerHTML = "";
+  const sectionArea = document.getElementById("sections");
+  sectionArea.innerHTML = "";
 
-  data[taskName].forEach((item, index) => {
-    const div = document.createElement("div");
-    div.className = "check-item";
+  const sections = data[taskName];
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.id = `check-${index}`;
+  Object.keys(sections).forEach(section => {
+    const header = document.createElement("div");
+    header.className = "section-header";
+    header.textContent = section;
 
-    const label = document.createElement("label");
-    label.setAttribute("for", checkbox.id);
-    label.textContent = item;
+    const content = document.createElement("div");
+    content.className = "section-content hidden";
 
-    div.appendChild(checkbox);
-    div.appendChild(label);
-    list.appendChild(div);
+    sections[section].forEach((item, index) => {
+      const div = document.createElement("div");
+      div.className = "check-item";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+
+      const label = document.createElement("label");
+      label.textContent = item;
+
+      div.appendChild(checkbox);
+      div.appendChild(label);
+
+      content.appendChild(div);
+    });
+
+    header.addEventListener("click", () => {
+      content.classList.toggle("hidden");
+    });
+
+    sectionArea.appendChild(header);
+    sectionArea.appendChild(content);
   });
 
   document.getElementById("clear-btn").onclick = clearChecks;
@@ -48,7 +65,7 @@ function loadTask(taskName) {
 }
 
 function clearChecks() {
-  document.querySelectorAll("input[type='checkbox']").forEach(cb => cb.checked = false);
+  document.querySelectorAll("input[type='checkbox']").forEach(cb => (cb.checked = false));
 }
 
 function goBack() {
