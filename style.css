@@ -104,6 +104,18 @@ label {
 .hidden {
   display: none;
 }
+.total-progress {
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.section-count {
+  font-size: 14px;
+  color: #555;
+}
 
 /* スマホ最適化 */
 @media (max-width: 600px) {
