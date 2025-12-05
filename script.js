@@ -50,25 +50,34 @@ function loadTask(taskName) {
     content.className = "section-content";
 
     sections[section].forEach(item => {
-      const div = document.createElement("div");
-      div.className = "check-item";
+    const div = document.createElement("div");
+    div.className = "check-item";
 
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
+    // チェックボックス
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
 
-      checkbox.addEventListener("change", () => {
-        updateSectionCount(content, countSpan);
-        updateTotalProgress();
-      });
+    // ラベル
+    const label = document.createElement("label");
+    label.textContent = item;
 
-      const label = document.createElement("label");
-      label.textContent = item;
-
-      div.appendChild(checkbox);
-      div.appendChild(label);
-
-      content.appendChild(div);
+    // ▼ 項目全体をクリックでチェックON/OFF
+    div.addEventListener("click", () => {
+      checkbox.checked = !checkbox.checked;
+      updateSectionCount(content, countSpan);
+      updateTotalProgress();
     });
+
+    // ▼ チェックボックス押したときもカウント更新
+    checkbox.addEventListener("change", () => {
+      updateSectionCount(content, countSpan);
+      updateTotalProgress();
+    });
+
+    div.appendChild(checkbox);
+    div.appendChild(label);
+    content.appendChild(div);
+  });
 
     sectionArea.appendChild(header);
     sectionArea.appendChild(content);
